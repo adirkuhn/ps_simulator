@@ -102,7 +102,6 @@ void SimulatorDataWidget::setupUi( QMainWindow *MainWindow )
     timerLabel->setMaximumSize( QSize( 120, 30 ) );
 
     timerLEdit = new QTextEdit( gb );
-    timerLEdit->setText("666");
     Q_CHECK_PTR( timerLEdit );
 
     timerLEdit->setObjectName( "SimulatorDataWidgetTimerLEdit" );

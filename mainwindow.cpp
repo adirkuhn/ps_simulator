@@ -42,7 +42,7 @@ MainWindow::MainWindow( QWidget *parent ) :
     connect( this->simulator, SIGNAL( updatedData() ),
              this, SLOT( updateData() ) );
 
-    simDataWidget->timerLEdit->setText("666");
+    simDataWidget->timerLEdit->setText("6");
     qDebug() << simDataWidget->timerLEdit->toPlainText();
 }
 
