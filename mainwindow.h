@@ -44,6 +44,7 @@ private:
 
 public slots:
     void updateData();
+
 };
 
 #endif // MAINWINDOW_H

@@ -3,7 +3,6 @@
 #include "simulatordatawidget_p.h"
 
 #include <QGroupBox>
-#include <QLineEdit>
 
 SimulatorDataWidget::SimulatorDataWidget( QWidget *parent ) :
     QWidget( parent )
@@ -77,7 +76,7 @@ void SimulatorDataWidget::setupUi( QMainWindow *MainWindow )
     dirLabel->setMinimumSize( QSize( 0, 30 ) );
     dirLabel->setMaximumSize( QSize( 120, 30 ) );
 
-    dirLEdit = new QLineEdit( gb );
+    dirLEdit = new QTextEdit( gb );
     Q_CHECK_PTR( dirLEdit );
 
     dirLEdit->setObjectName( "SimulatorDataWidgetDirLEdit" );
@@ -102,7 +101,8 @@ void SimulatorDataWidget::setupUi( QMainWindow *MainWindow )
     timerLabel->setMinimumSize( QSize( 0, 30 ) );
     timerLabel->setMaximumSize( QSize( 120, 30 ) );
 
-    timerLEdit = new QLineEdit( gb );
+    timerLEdit = new QTextEdit( gb );
+    timerLEdit->setText("666");
     Q_CHECK_PTR( timerLEdit );
 
     timerLEdit->setObjectName( "SimulatorDataWidgetTimerLEdit" );

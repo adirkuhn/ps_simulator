@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include <QTimer>
+#include <QTextEdit>
+#include <ui/simulatordatawidget.h>
 
 class Simulator : public QObject
 {
@@ -11,9 +13,15 @@ class Simulator : public QObject
 private:
     QTimer* timer;
     int     interval;
+    QString simTimeInterval;
+    SimulatorDataWidget *simDataWidget;
+
+    int getSimTimeInterval();
+
 
 public:
     explicit Simulator( QObject *parent = 0 );
+    void setSimDataWidget(SimulatorDataWidget *simDataWidget);
 
 signals:
     void updatedData();

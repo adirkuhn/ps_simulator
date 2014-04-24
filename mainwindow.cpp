@@ -4,11 +4,12 @@
 #include <QDebug>
 
 MainWindow::MainWindow( QWidget *parent ) :
-    QMainWindow( parent )//, ui( new Ui::MainWindow )
+    QMainWindow( parent ), ui( new Ui::MainWindow )
 {
-    //ui->setupUi(this);
+    QString tempo = "666";
+    ui->setupUi(this);
 
-    //this->table = ui->dataTableView;
+    this->table = ui->dataTableView;
 
     simDataWidget = new SimulatorDataWidget( this );
 
@@ -23,6 +24,8 @@ MainWindow::MainWindow( QWidget *parent ) :
     setTable();
 
     this->simulator = new Simulator();
+    this->simulator->setSimDataWidget(this->simDataWidget);
+
 
     // thread Timer
     this->simulator->moveToThread( &thread );
@@ -38,10 +41,17 @@ MainWindow::MainWindow( QWidget *parent ) :
     // conecta ciclo simulação
     connect( this->simulator, SIGNAL( updatedData() ),
              this, SLOT( updateData() ) );
+
+    simDataWidget->timerLEdit->setText("666");
+    qDebug() << simDataWidget->timerLEdit->toPlainText();
 }
 
 MainWindow::~MainWindow()
 {
+    //destroy thread
+    this->thread.quit();
+    this->thread.wait();
+
     delete ui;
     delete simulator;
 }
@@ -73,3 +83,4 @@ void MainWindow::updateData()
     qDebug() << "    atualizando dados GUI ...";
 
 }
+

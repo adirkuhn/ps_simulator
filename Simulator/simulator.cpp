@@ -2,12 +2,22 @@
 
 #include <QDebug>
 
-Simulator::Simulator( QObject *parent ) :
-    QObject( parent )
-{
-    timer = 0;
 
-    this->interval = 1000;
+Simulator::Simulator(QObject *parent ): QObject( parent )
+{
+    this->timer = 0;
+}
+
+int Simulator::getSimTimeInterval()
+{
+    this->simTimeInterval = this->simDataWidget->timerLEdit->toPlainText();
+
+    return this->simTimeInterval.toInt() * 1000;
+}
+
+void Simulator::setSimDataWidget(SimulatorDataWidget *simDataWidget)
+{
+    this->simDataWidget = simDataWidget;
 }
 
 void Simulator::execSimulation()
@@ -25,24 +35,31 @@ void Simulator::execSimulation()
 
 void Simulator::startPeriodicExec()
 {
-    if ( !timer )
+    if ( !this->timer )
     {
-        timer = new QTimer( this );
 
-        timer->setInterval( this->interval );
+        this->timer = new QTimer( this );
 
-        QObject::connect( timer, SIGNAL( timeout() ),
+        this->timer->setInterval( this->getSimTimeInterval() );
+
+        QObject::connect( this->timer, SIGNAL( timeout() ),
                           this, SLOT( execSimulation() ) );
     }
+    else {
+        this->timer->setInterval(this->getSimTimeInterval());
+    }
 
-    timer->start();
+    this->timer->start();
 
     qDebug() << "start periodic simulation";
+    qDebug() << this->getSimTimeInterval();
 }
 
 void Simulator::stopPeriodicExec()
 {
-    timer->stop();
+    if (this->timer) {
+        this->timer->stop();
+    }
 
     qDebug() << "stop periodic simulation";
 }

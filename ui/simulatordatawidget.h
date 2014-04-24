@@ -4,6 +4,7 @@
 #include <QWidget>
 
 #include <QLabel>
+#include <QTextEdit>
 #include <QMainWindow>
 #include <QPushButton>
 #include <QTabWidget>
@@ -31,7 +32,7 @@ public:
     QToolButton *btnDir;
 
     QLabel    *dirLabel, *timerLabel;
-    QLineEdit *dirLEdit, *timerLEdit;
+    QTextEdit *dirLEdit, *timerLEdit;
 
     QTabWidget *tab;
     QTableView *dataTableView;
