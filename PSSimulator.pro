@@ -22,7 +22,10 @@ SOURCES += main.cpp\
     Simulator/simulatordata.cpp \
     Simulator/simulator.cpp \
     ui/simulatordatawidget.cpp \
-    PIU/tp.cpp
+    PIU/switchh.cpp \
+    PIU/tph.cpp \
+    PIU/breakerh.cpp \
+    PIU/RatioTapChangerH.cpp
 
 HEADERS  += mainwindow.h \
     CIM/semdcim.h \
@@ -33,7 +36,10 @@ HEADERS  += mainwindow.h \
     Simulator/simulator.h \
     ui/simulatordatawidget.h \
     ui/simulatordatawidget_p.h \
-    PIU/tp.h
+    PIU/switchh.h \
+    PIU/tph.h \
+    PIU/breakerh.h \
+    PIU/RatioTapChangerH.h
 
 FORMS    += mainwindow.ui
 
@@ -50,10 +56,8 @@ FORMS    += mainwindow.ui
 #else:win32:CONFIG(debug, debug|release): LIBS += -L/usr/lib/IEC61970/ -lIEC61970d
 #else:unix: LIBS += -L/usr/lib/IEC61970/ -lIEC61970
 
-#!win32 {
- LIBS += -L/usr/lib/IEC61970/ -lIEC61970 \
+LIBS += -L/usr/lib/IEC61970/ -lIEC61970 \
         -L/usr/lib/IEC61850/ -lIEC61850
-#}
 
 
 INCLUDEPATH += /usr/include/IEC61970 /usr/include/IEC61850/

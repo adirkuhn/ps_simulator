@@ -341,7 +341,7 @@ void SEMDCIM::addTrafos()
 {
     PowerTransformer       *pwTrafo;
     PowerTransformerEnd    *pwTrafo500kVEnd, *pwTrafo220kVEnd;
-    RatioTapChanger        *tapChanger;
+    RatioTapChangerH       *tapChanger;
     RatioTapChangerTabular *tapChgTabular;
 
     for ( int t = 0; t < SEMDData::TRAFOS; ++t )
@@ -351,7 +351,7 @@ void SEMDCIM::addTrafos()
         pwTrafo500kVEnd = new PowerTransformerEnd();
         pwTrafo220kVEnd = new PowerTransformerEnd();
 
-        tapChanger    = new RatioTapChanger();
+        tapChanger    = new RatioTapChangerH();
         tapChgTabular = new RatioTapChangerTabular();
 
         pwTrafo->name.str = SEMDData::trafosID[t];
@@ -408,11 +408,11 @@ void SEMDCIM::addTrafos()
 
 void SEMDCIM::addBreakers()
 {
-    Breaker *breaker;
+    BreakerH *breaker;
 
     for ( int b = 0; b < SEMDData::BREAKERS; ++b )
     {
-        breaker = new Breaker();
+        breaker = new BreakerH();
 
         breaker->name.str = SEMDData::breakersID[b];
 
@@ -437,6 +437,9 @@ void SEMDCIM::addMeasurements()
 
         // atualiza equipamento
         breakers.at( b )->measurements.append( m );
+
+        //posicao do breaker (61850)
+        breakers.at(b)->setPos(BreakerStatus::closed);
     }
 
     // Barras

@@ -44,6 +44,7 @@ MainWindow::MainWindow( QWidget *parent ) :
 
     simDataWidget->timerLEdit->setText("6");
     qDebug() << simDataWidget->timerLEdit->toPlainText();
+
 }
 
 MainWindow::~MainWindow()
