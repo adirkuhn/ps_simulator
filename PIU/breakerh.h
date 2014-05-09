@@ -13,9 +13,12 @@ class BreakerH : public Breaker
 public:
     LD *ld;
     XCBR *xcbr;
+
     BreakerH();
     void setPos(BreakerStatus pos);
-    int getPos();
+    DPStatusKind getPos();
+    void setName(QString name);
+    QString getName();
 };
 
 #endif // BREAKERH_H

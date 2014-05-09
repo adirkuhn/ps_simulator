@@ -98,7 +98,7 @@ public:
 
     bool setEqData(QString eq, QString mType, const QVariant &value );
 
-    bool isBreaker( QString eq );
+    int isBreaker( QString eq );
     bool isBus( QString eq );
 
 private:

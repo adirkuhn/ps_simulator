@@ -1,14 +1,11 @@
 #include "semdcim.h"
-
-#include <QDebug>
-
 #include "semddata.h"
 #include "BreakerStatus.h"
-
 #include <math.h>
-
 #include <Analog.h>
 #include <Discrete.h>
+
+#include <QDebug>
 
 SEMDCIM::SEMDCIM( QObject *parent ) :
     QObject( parent )
@@ -91,8 +88,19 @@ bool SEMDCIM::setEqData( QString eq, QString mType, const QVariant &value )
 {
     QList<Measurement*> ms = measurements.values( eq );
 
+
     foreach ( Measurement* m, ms )
     {
+        //atualiza dados no modelo iec61850
+        if (isBreaker(eq) > -1) {
+            BreakerStatus breakerSt = BreakerStatus(BreakerStatus::enum_type(value.toInt()));
+            breakers[isBreaker(eq)]->setPos(breakerSt);
+            //TODO: Remove (debug information)
+            qDebug() << "Breaker: " << breakers[isBreaker(eq)]->getName();
+            qDebug() << "Status: " << breakerSt;
+        }
+
+
         if ( m->measurementType.str == mType )
         {
             if ( MeasurementType::isDiscrete( m->measurementType.str ) )
@@ -118,15 +126,15 @@ bool SEMDCIM::setEqData( QString eq, QString mType, const QVariant &value )
     return false;
 }
 
-bool SEMDCIM::isBreaker( QString eq )
+int SEMDCIM::isBreaker( QString eq )
 {
-    for ( int b = 0; b < SEMDData::BREAKERS; ++b )
+    for ( int b = 0; b < SEMDData::BREAKERS; b++ )
     {
         if ( eq == SEMDData::breakersID[b] )
-            return true;
+            return b;
     }
 
-    return false;
+    return -1;
 }
 
 bool SEMDCIM::isBus( QString eq )
@@ -414,7 +422,7 @@ void SEMDCIM::addBreakers()
     {
         breaker = new BreakerH();
 
-        breaker->name.str = SEMDData::breakersID[b];
+        breaker->setName(SEMDData::breakersID[b]);
 
         // lista local
         breakers.append( breaker );

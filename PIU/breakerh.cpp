@@ -1,5 +1,4 @@
 #include "breakerh.h"
-#include <QDebug>
 
 BreakerH::BreakerH()
 {
@@ -9,27 +8,33 @@ BreakerH::BreakerH()
 
 void BreakerH::setPos(BreakerStatus pos)
 {
-    qDebug() << "Breaker Harmonization";
-    qDebug() << this->xcbr->Pos.stVal.getAttr().getVal();
-
-
     switch(pos)
     {
         case BreakerStatus::open:
-            qDebug() << "Open";
             xcbr->Pos.stVal.getAttr().setVal(offOrFalse);
             break;
 
         case BreakerStatus::half_open:
-            qDebug() << "HALF-OPEN";
             xcbr->Pos.stVal.getAttr().setVal(intermediateState);
             break;
 
         case BreakerStatus::closed:
-            qDebug() << "Closed";
             xcbr->Pos.stVal.getAttr().setVal(onOrTrue);
             break;
     }
+}
 
-    qDebug() << pos;
+DPStatusKind BreakerH::getPos() {
+    return this->xcbr->Pos.stVal.getAttr().getVal();
+}
+
+void BreakerH::setName(QString name)
+{
+    //Breaker name
+    this->name.str = name;
+}
+
+QString BreakerH::getName()
+{
+    return this->name.str;
 }
