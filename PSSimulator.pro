@@ -21,11 +21,7 @@ SOURCES += main.cpp\
     CIM/semddata.cpp \
     Simulator/simulatordata.cpp \
     Simulator/simulator.cpp \
-    ui/simulatordatawidget.cpp \
-    PIU/switchh.cpp \
-    PIU/tph.cpp \
-    PIU/breakerh.cpp \
-    PIU/RatioTapChangerH.cpp
+    ui/simulatordatawidget.cpp
 
 HEADERS  += mainwindow.h \
     CIM/semdcim.h \
@@ -35,11 +31,7 @@ HEADERS  += mainwindow.h \
     Simulator/simulatordata.h \
     Simulator/simulator.h \
     ui/simulatordatawidget.h \
-    ui/simulatordatawidget_p.h \
-    PIU/switchh.h \
-    PIU/tph.h \
-    PIU/breakerh.h \
-    PIU/RatioTapChangerH.h
+    ui/simulatordatawidget_p.h
 
 FORMS    += mainwindow.ui
 

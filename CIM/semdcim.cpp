@@ -89,18 +89,13 @@ bool SEMDCIM::setEqData( QString eq, QString mType, const QVariant &value )
     QList<Measurement*> ms = measurements.values( eq );
 
 
+    //atualiza dados no modelo iec61850
+    if (isBreaker(eq) > -1) {
+        qDebug() << "TODO: Atualizar valor do breaker!!!";
+    }
+
     foreach ( Measurement* m, ms )
     {
-        //atualiza dados no modelo iec61850
-        if (isBreaker(eq) > -1) {
-            BreakerStatus breakerSt = BreakerStatus(BreakerStatus::enum_type(value.toInt()));
-            breakers[isBreaker(eq)]->setPos(breakerSt);
-            //TODO: Remove (debug information)
-            qDebug() << "Breaker: " << breakers[isBreaker(eq)]->getName();
-            qDebug() << "Status: " << breakerSt;
-        }
-
-
         if ( m->measurementType.str == mType )
         {
             if ( MeasurementType::isDiscrete( m->measurementType.str ) )
@@ -349,7 +344,7 @@ void SEMDCIM::addTrafos()
 {
     PowerTransformer       *pwTrafo;
     PowerTransformerEnd    *pwTrafo500kVEnd, *pwTrafo220kVEnd;
-    RatioTapChangerH       *tapChanger;
+    RatioTapChanger       *tapChanger;
     RatioTapChangerTabular *tapChgTabular;
 
     for ( int t = 0; t < SEMDData::TRAFOS; ++t )
@@ -359,7 +354,7 @@ void SEMDCIM::addTrafos()
         pwTrafo500kVEnd = new PowerTransformerEnd();
         pwTrafo220kVEnd = new PowerTransformerEnd();
 
-        tapChanger    = new RatioTapChangerH();
+        tapChanger    = new RatioTapChanger();
         tapChgTabular = new RatioTapChangerTabular();
 
         pwTrafo->name.str = SEMDData::trafosID[t];
@@ -416,13 +411,14 @@ void SEMDCIM::addTrafos()
 
 void SEMDCIM::addBreakers()
 {
-    BreakerH *breaker;
+    Breaker *breaker;
 
     for ( int b = 0; b < SEMDData::BREAKERS; ++b )
     {
-        breaker = new BreakerH();
+        breaker = new Breaker();
 
-        breaker->setName(SEMDData::breakersID[b]);
+        //nomeando equipamento
+        breaker->name.str = SEMDData::breakersID[b];
 
         // lista local
         breakers.append( breaker );
@@ -447,7 +443,7 @@ void SEMDCIM::addMeasurements()
         breakers.at( b )->measurements.append( m );
 
         //posicao do breaker (61850)
-        breakers.at(b)->setPos(BreakerStatus::closed);
+        qDebug() << "TODO: Setar posiçao do breaker dentro do modelo da norma iec61850!!!";
     }
 
     // Barras

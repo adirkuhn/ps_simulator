@@ -14,8 +14,7 @@
 #include <ConnectivityNode.h>
 #include <PowerTransformer.h>
 #include <TransformerCoreAdmittance.h>
-#include <PIU/breakerh.h>
-#include <PIU/RatioTapChangerH.h>
+#include <Breaker.h>
 
 /*
  * The Common Power System Model (CPSM) profile defines the subset of classes,
@@ -67,7 +66,7 @@ private:
     QList<PowerTransformer*> trafos;
 
     // Breakers
-    QList<BreakerH*> breakers;
+    QList<Breaker*> breakers;
 
     // Medidas
     // Tip - QMap only small number elements & need to sort
