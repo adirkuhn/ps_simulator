@@ -12,6 +12,8 @@ SEMDCIM::SEMDCIM( QObject *parent ) :
 {
     qDebug() << "Starting CIM Model";
 
+    dataUpdateSystem = new DataUpdateSystem();
+
     modelAuthority.name.str = SEMDData::AUTH_ID;
     modelAuthoritySet.modelingAuthority = & modelAuthority;
 
@@ -86,13 +88,9 @@ QList<QVariant> SEMDCIM::getEqData( QString eq )
 
 bool SEMDCIM::setEqData( QString eq, QString mType, const QVariant &value )
 {
+    bool flag = false;
+
     QList<Measurement*> ms = measurements.values( eq );
-
-
-    //atualiza dados no modelo iec61850
-    if (isBreaker(eq) > -1) {
-        qDebug() << "TODO: Atualizar valor do breaker!!!";
-    }
 
     foreach ( Measurement* m, ms )
     {
@@ -114,11 +112,16 @@ bool SEMDCIM::setEqData( QString eq, QString mType, const QVariant &value )
                 mAn->analogValues.at( 0 )->value.val = value.toFloat();
             }
 
-            return true;
+            //return true;
+            flag = true;
         }
     }
 
-    return false;
+    if(isBreaker(eq)) {
+        this->dataUpdateSystem->updateBreaker(this->breakers[isBreaker(eq)], this->breakerIEDs[isBreaker(eq)]);
+    }
+
+    return flag;
 }
 
 int SEMDCIM::isBreaker( QString eq )
@@ -412,16 +415,21 @@ void SEMDCIM::addTrafos()
 void SEMDCIM::addBreakers()
 {
     Breaker *breaker;
+    BreakerIED *breakerIED;
 
     for ( int b = 0; b < SEMDData::BREAKERS; ++b )
     {
         breaker = new Breaker();
+        breakerIED = new BreakerIED();
 
         //nomeando equipamento
         breaker->name.str = SEMDData::breakersID[b];
+        breakerIED->setLDName(SEMDData::breakersID[b]);
 
         // lista local
         breakers.append( breaker );
+        breakerIEDs.append(breakerIED);
+
     }
 }
 

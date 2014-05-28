@@ -15,6 +15,9 @@
 #include <PowerTransformer.h>
 #include <TransformerCoreAdmittance.h>
 #include <Breaker.h>
+#include <PIU/BreakerIED.h>
+
+#include <Helpers/UpdateSystem/DataUpdateSystem.h>
 
 /*
  * The Common Power System Model (CPSM) profile defines the subset of classes,
@@ -32,6 +35,9 @@ class SEMDCIM : public QObject
     Q_OBJECT
 
 private:
+    //DataUpdateSystem
+    DataUpdateSystem *dataUpdateSystem;
+
     // Authority
     ModelingAuthority    modelAuthority;
     ModelingAuthoritySet modelAuthoritySet;
@@ -67,6 +73,7 @@ private:
 
     // Breakers
     QList<Breaker*> breakers;
+    QList<BreakerIED*> breakerIEDs;
 
     // Medidas
     // Tip - QMap only small number elements & need to sort
