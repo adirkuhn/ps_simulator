@@ -22,23 +22,45 @@ QString BreakerIED::getLDName() {
 
 void BreakerIED::setPos(int pos) {
     BreakerStatus breakerStatus = BreakerStatus(BreakerStatus::enum_type(pos));
-    DPStatus dpStatus;
+    //DPStatus dpStatus;
+    BOOLEAN ctVal;
+    P_BOOLEAN val;
 
     switch(breakerStatus)
     {
         case BreakerStatus::open:
-            dpStatus.setVal(offOrFalse);
+            //dpStatus.setVal(offOrFalse);
+            val.setVal(false);
             break;
 
         case BreakerStatus::half_open:
-            dpStatus.setVal(intermediateState);
+            //dpStatus.setVal(intermediateState);
             break;
 
         case BreakerStatus::closed:
-            dpStatus.setVal(onOrTrue);
+            //dpStatus.setVal(onOrTrue);
+            val.setVal(true);
             break;
     }
 
+    ctVal.setVal(val);
+    this->XCBR1->Pos.ctlVal.setAttr(ctVal);
+    qDebug() << "Atribuido valor do Pos ao ctlVal. Agora precisa mudar posiçao do breaker e jogar o resultado em stVal";
+    //this->XCBR1->Pos.stVal.setAttr(dpStatus);
+    this->exec();
+}
+
+//TODO: Mudar a posiçao do breaker e setar valor no stVal
+void BreakerIED::exec() {
+    DPStatus dpStatus;
+
+    dpStatus.setVal(offOrFalse);
+
+    if (this->XCBR1->Pos.ctlVal.getAttr().getVal().getVal()) {
+        dpStatus.setVal(onOrTrue);
+    }
+
+    //stVal
     this->XCBR1->Pos.stVal.setAttr(dpStatus);
 }
 
