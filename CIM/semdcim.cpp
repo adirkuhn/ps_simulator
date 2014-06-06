@@ -4,6 +4,7 @@
 #include <math.h>
 #include <Analog.h>
 #include <Discrete.h>
+#include "PIU/busied.h"
 
 #include <QDebug>
 
@@ -117,9 +118,15 @@ bool SEMDCIM::setEqData( QString eq, QString mType, const QVariant &value )
         }
     }
 
-    if(isBreaker(eq)) {
+    if(isBreaker(eq) > -1) {
         this->dataUpdateSystem->updateBreaker(this->breakers[isBreaker(eq)], this->breakerIEDs[isBreaker(eq)]);
     }
+
+    if(isBus(eq) > -1) {
+        qDebug() << "BUS";
+        // this->dataUpdateSystem->updateBreaker(this->breakers[isBreaker(eq)], this->breakerIEDs[isBreaker(eq)]);
+    }
+
 
     return flag;
 }
@@ -135,15 +142,15 @@ int SEMDCIM::isBreaker( QString eq )
     return -1;
 }
 
-bool SEMDCIM::isBus( QString eq )
+int SEMDCIM::isBus( QString eq )
 {
-    for ( int b = 0; b < SEMDData::BUSES; ++b )
+    for ( int b = 0; b < SEMDData::BUSES; b++ )
     {
         if ( eq == SEMDData::busID[b] )
-            return true;
+            return b;
     }
 
-    return false;
+    return -1;
 }
 
 
@@ -235,22 +242,32 @@ void SEMDCIM::addBuses()
     vControlZone220kV.name.str = SEMDData::VCZ_220kV;
 
     BusbarSection * bus;
+    BusIED * busIED;
 
-    for ( int b = 0; b < SEMDData::BUSES; ++b )
+    for ( int b = 0; b < SEMDData::BUSES; b++ )
     {
         bus = new BusbarSection();
+        busIED = new BusIED();
+
 
         bus->name.str = SEMDData::busID[b];
 
-        if ( bus->name.str.endsWith( "500kV" ) )
+        if ( bus->name.str.endsWith( "500kV" ) ){
             bus->voltageControlZone = & vControlZone500kV;
+            busIED->setVol(500);
+
+        }
+
         else
-        if ( bus->name.str.endsWith( "220kV" ) )
+        if ( bus->name.str.endsWith( "220kV" ) ) {
             bus->voltageControlZone = & vControlZone220kV;
+            busIED->setVol(220);
+        }
 
         bus->normallyInService.val = true;
 
         buses.append( bus );
+        busIEDs.append ( busIED );
     }
 }
 

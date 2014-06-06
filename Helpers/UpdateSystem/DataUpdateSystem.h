@@ -7,6 +7,8 @@
 #include <Breaker.h>
 #include <Discrete.h>
 #include "PIU/BreakerIED.h"
+#include <BusbarSection.h>
+#include "PIU/busied.h"
 
 class DataUpdateSystem
 {
@@ -19,6 +21,7 @@ public:
 
 
     void updateBreaker(Breaker *breaker, BreakerIED *breakerIED);
+    void updateBus (BusbarSection *busbar, BusIED *busIED);
 };
 
 #endif // DATAUPDATESYSTEM_H
