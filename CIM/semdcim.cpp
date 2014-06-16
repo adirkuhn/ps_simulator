@@ -117,8 +117,11 @@ bool SEMDCIM::setEqData( QString eq, QString mType, const QVariant &value )
         }
     }
 
-    if(isBreaker(eq)) {
+    if(isBreaker(eq) > -1) {
         this->dataUpdateSystem->updateBreaker(this->breakers[isBreaker(eq)], this->breakerIEDs[isBreaker(eq)]);
+    }
+    if (isTrafo(eq) > -1) {
+        this->dataUpdateSystem->updateTrafo(this->trafos[isTrafo(eq)], this->trafoIEDs[isTrafo(eq)]);
     }
 
     return flag;
@@ -144,6 +147,16 @@ bool SEMDCIM::isBus( QString eq )
     }
 
     return false;
+}
+
+int SEMDCIM::isTrafo(QString eq) {
+    for (int t=0; t < SEMDData::TRAFOS; t++) {
+        if ( eq == SEMDData::trafosID[t]) {
+            return t;
+        }
+    }
+
+    return -1;
 }
 
 
@@ -345,14 +358,16 @@ void SEMDCIM::addLoads()
 
 void SEMDCIM::addTrafos()
 {
-    PowerTransformer       *pwTrafo;
-    PowerTransformerEnd    *pwTrafo500kVEnd, *pwTrafo220kVEnd;
-    RatioTapChanger       *tapChanger;
+    PowerTransformer *pwTrafo;
+    TrafoIED *trafoIED;
+    PowerTransformerEnd *pwTrafo500kVEnd, *pwTrafo220kVEnd;
+    RatioTapChanger *tapChanger;
     RatioTapChangerTabular *tapChgTabular;
 
     for ( int t = 0; t < SEMDData::TRAFOS; ++t )
     {
         pwTrafo = new PowerTransformer();
+        trafoIED = new TrafoIED();
 
         pwTrafo500kVEnd = new PowerTransformerEnd();
         pwTrafo220kVEnd = new PowerTransformerEnd();
@@ -409,6 +424,7 @@ void SEMDCIM::addTrafos()
 
         // lista local
         trafos.append( pwTrafo );
+        trafoIEDs.append(trafoIED);
     }
 }
 
@@ -537,6 +553,7 @@ void SEMDCIM::addMeasurements()
         m = addDiMeasurement( MeasurementType::status, SEMDData::trafosID[t],
                               UnitSymbol::none, UnitMultiplier::none,
                               10 );
+
     }
 }
 

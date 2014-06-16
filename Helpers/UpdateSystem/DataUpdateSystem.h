@@ -6,7 +6,9 @@
 #include <Measurement.h>
 #include <Breaker.h>
 #include <Discrete.h>
+#include <PowerTransformer.h>
 #include "PIU/BreakerIED.h"
+#include "PIU/TrafoIED.h"
 
 class DataUpdateSystem
 {
@@ -19,6 +21,7 @@ public:
 
 
     void updateBreaker(Breaker *breaker, BreakerIED *breakerIED);
+    void updateTrafo(PowerTransformer *trafo, TrafoIED *trafoIED);
 };
 
 #endif // DATAUPDATESYSTEM_H
