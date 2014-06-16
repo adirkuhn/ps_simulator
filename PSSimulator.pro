@@ -22,12 +22,11 @@ SOURCES += main.cpp\
     Simulator/simulatordata.cpp \
     Simulator/simulator.cpp \
     ui/simulatordatawidget.cpp \
-    Helpers/UpdateSystem/BreakerUpdate.cpp \
     PIU/BreakerIED.cpp \
     Helpers/UpdateSystem/DataUpdateSystem.cpp \
     Helpers/UpdateSystem/IEquipmentDataUpdate.cpp \
-    PIU/oldBusIED.cpp \
-    PIU/busied.cpp
+    PIU/busied.cpp \
+    PIU/TrafoIED.cpp
 
 HEADERS  += mainwindow.h \
     CIM/semdcim.h \
@@ -38,11 +37,11 @@ HEADERS  += mainwindow.h \
     Simulator/simulator.h \
     ui/simulatordatawidget.h \
     ui/simulatordatawidget_p.h \
-    Helpers/UpdateSystem/BreakerUpdate.h \
     PIU/BreakerIED.h \
     Helpers/UpdateSystem/DataUpdateSystem.h \
     Helpers/UpdateSystem/IEquipmentDataUpdate.h \
-    PIU/busied.h
+    PIU/busied.h \
+    PIU/TrafoIED.h
 
 FORMS    += mainwindow.ui
 

@@ -16,6 +16,7 @@
 #include <TransformerCoreAdmittance.h>
 #include <Breaker.h>
 #include <PIU/BreakerIED.h>
+#include <PIU/TrafoIED.h>
 
 #include <Helpers/UpdateSystem/DataUpdateSystem.h>
 
@@ -71,6 +72,7 @@ private:
 
     // Trafos
     QList<PowerTransformer*> trafos;
+    QList<TrafoIED*> trafoIEDs;
 
     // Breakers
     QList<Breaker*> breakers;
@@ -106,7 +108,12 @@ public:
     bool setEqData(QString eq, QString mType, const QVariant &value );
 
     int isBreaker( QString eq );
+<<<<<<< HEAD
     int isBus( QString eq );
+=======
+    bool isBus( QString eq );
+    int isTrafo(QString eq);
+>>>>>>> HarmonizationAndDataExchange
 
 private:
     void setBases();

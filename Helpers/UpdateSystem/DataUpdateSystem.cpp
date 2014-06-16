@@ -19,6 +19,7 @@ void DataUpdateSystem::updateBreaker(Breaker *breaker, BreakerIED *breakerIED) {
 
 
     //Update Breaker Position (Pos)
+    //Converte o valor no vetor measurementes para o tipo Discrete, que contem os valores
     Discrete *discreteMeas = dynamic_cast<Discrete*>(breaker->measurements[0]);
     breakerIED->setPos(discreteMeas->discreteValues[0]->value.val);
 
@@ -26,4 +27,13 @@ void DataUpdateSystem::updateBreaker(Breaker *breaker, BreakerIED *breakerIED) {
     qDebug() << breakerIED->getPos();
 
     qDebug() << "updata data in breaker";
+}
+
+void DataUpdateSystem::updateTrafo(PowerTransformer *trafo, TrafoIED *trafoIED) {
+
+    Discrete *discreteMeas = dynamic_cast<Discrete*>(trafo->measurements[0]);
+
+    qDebug() << "TODO: Dados do trafo para IED";
+
+    trafoIED->setPos(2);
 }
