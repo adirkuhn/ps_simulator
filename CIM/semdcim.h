@@ -108,12 +108,8 @@ public:
     bool setEqData(QString eq, QString mType, const QVariant &value );
 
     int isBreaker( QString eq );
-<<<<<<< HEAD
     int isBus( QString eq );
-=======
-    bool isBus( QString eq );
     int isTrafo(QString eq);
->>>>>>> HarmonizationAndDataExchange
 
 private:
     void setBases();
