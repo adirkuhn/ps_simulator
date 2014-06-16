@@ -24,7 +24,9 @@ SOURCES += main.cpp\
     ui/simulatordatawidget.cpp \
     PIU/BreakerIED.cpp \
     Helpers/UpdateSystem/DataUpdateSystem.cpp \
-    PIU/TrafoIED.cpp
+    PIU/TrafoIED.cpp \
+    PIU/oldBusIED.cpp \
+    PIU/busied.cpp
 
 HEADERS  += mainwindow.h \
     CIM/semdcim.h \
@@ -37,7 +39,8 @@ HEADERS  += mainwindow.h \
     ui/simulatordatawidget_p.h \
     PIU/BreakerIED.h \
     Helpers/UpdateSystem/DataUpdateSystem.h \
-    PIU/TrafoIED.h
+    PIU/TrafoIED.h \
+    PIU/busied.h
 
 FORMS    += mainwindow.ui
 

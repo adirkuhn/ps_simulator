@@ -57,6 +57,7 @@ private:
 
     // Buses
     QList<BusbarSection*> buses;
+    QList<BusIED*> busIEDs;
     VoltageControlZone    vControlZone500kV, vControlZone220kV;
 
     // Bays
@@ -109,6 +110,7 @@ public:
     int isBreaker( QString eq );
     bool isBus( QString eq );
     int isTrafo(QString eq);
+    int isBus( QString eq );
 
 private:
     void setBases();
