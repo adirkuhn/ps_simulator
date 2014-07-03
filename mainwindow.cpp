@@ -6,7 +6,8 @@
 MainWindow::MainWindow( QWidget *parent ) :
     QMainWindow( parent ), ui( new Ui::MainWindow )
 {
-    QString tempo = "666";
+    this->sender = new Sender();
+
     ui->setupUi(this);
 
     this->table = ui->dataTableView;
@@ -31,6 +32,9 @@ MainWindow::MainWindow( QWidget *parent ) :
     this->simulator->moveToThread( &thread );
     thread.start();
 
+    //desabilita botoes
+    simDataWidget->btnStopSimul->setEnabled(false);
+
     // conecta botões Iniciar / Parar
     connect( simDataWidget->btnStartSimul, SIGNAL( clicked() ),
              this->simulator, SLOT( startPeriodicExec() ) );
@@ -53,6 +57,7 @@ MainWindow::~MainWindow()
     this->thread.quit();
     this->thread.wait();
 
+    delete sender;
     delete ui;
     delete simulator;
 }
@@ -81,7 +86,13 @@ void MainWindow::setTable()
 
 void MainWindow::updateData()
 {
+    QJsonObject dataToSend;
     qDebug() << "    atualizando dados GUI ...";
+
+    qDebug() << "------------------------------------------------------------";
+    dataToSend = this->sender->encodeData(this->simData);
+    this->sender->sendDatagram(dataToSend);
+    qDebug() << "------------------------------------------------------------";
 
 }
 

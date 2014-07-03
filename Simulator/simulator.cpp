@@ -8,6 +8,10 @@ Simulator::Simulator(QObject *parent ): QObject( parent )
     this->timer = 0;
 }
 
+Simulator::~Simulator() {
+    delete timer;
+}
+
 int Simulator::getSimTimeInterval()
 {
     this->simTimeInterval = this->simDataWidget->timerLEdit->toPlainText();
@@ -51,6 +55,10 @@ void Simulator::startPeriodicExec()
 
     this->timer->start();
 
+    //botoes
+    this->simDataWidget->btnStartSimul->setEnabled(false);
+    this->simDataWidget->btnStopSimul->setEnabled(true);
+
     qDebug() << "start periodic simulation";
     qDebug() << this->getSimTimeInterval();
 }
@@ -61,5 +69,11 @@ void Simulator::stopPeriodicExec()
         this->timer->stop();
     }
 
+    //botoes
+    this->simDataWidget->btnStartSimul->setEnabled(true);
+    this->simDataWidget->btnStopSimul->setEnabled(false);
+
     qDebug() << "stop periodic simulation";
 }
+
+

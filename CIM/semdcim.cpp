@@ -118,16 +118,15 @@ bool SEMDCIM::setEqData( QString eq, QString mType, const QVariant &value )
         }
     }
 
+    //Verifica o tipo de equipamento e chama funcao para troca de dados
     if(isBreaker(eq) > -1) {
         this->dataUpdateSystem->updateBreaker(this->breakers[isBreaker(eq)], this->breakerIEDs[isBreaker(eq)]);
     }
     if (isTrafo(eq) > -1) {
         this->dataUpdateSystem->updateTrafo(this->trafos[isTrafo(eq)], this->trafoIEDs[isTrafo(eq)]);
     }
-
     if(isBus(eq) > -1) {
-        qDebug() << "BUS";
-        // this->dataUpdateSystem->updateBreaker(this->breakers[isBreaker(eq)], this->breakerIEDs[isBreaker(eq)]);
+        this->dataUpdateSystem->updateBus(this->buses[isBus(eq)], this->busIEDs[isBus(eq)]);
     }
 
 
@@ -264,17 +263,17 @@ void SEMDCIM::addBuses()
 
 
         bus->name.str = SEMDData::busID[b];
+        busIED->setLDName(SEMDData::busID[b]);
 
         if ( bus->name.str.endsWith( "500kV" ) ){
             bus->voltageControlZone = & vControlZone500kV;
-            busIED->setVol(500);
 
         }
 
         else
         if ( bus->name.str.endsWith( "220kV" ) ) {
             bus->voltageControlZone = & vControlZone220kV;
-            busIED->setVol(220);
+
         }
 
         bus->normallyInService.val = true;
@@ -393,6 +392,7 @@ void SEMDCIM::addTrafos()
         tapChgTabular = new RatioTapChangerTabular();
 
         pwTrafo->name.str = SEMDData::trafosID[t];
+        trafoIED->setLDName(SEMDData::trafosID[t]);
 
         pwTrafo500kVEnd->baseVoltage    = & vBase500kV;
         pwTrafo500kVEnd->connectionKind = WindingConnection::Yn;
@@ -413,6 +413,7 @@ void SEMDCIM::addTrafos()
 
         tapChanger->name.str = "Curva Real LTC " + pwTrafo->name.str;
 
+        //TODO: Tap tem 19 posições (0-18) ?
         for ( int tapPos = 0; tapPos < SEMDData::TRAFOS_TAPS; ++tapPos )
         {
             RatioTapChangerTabularPoint tabularPoint;
@@ -450,7 +451,7 @@ void SEMDCIM::addBreakers()
     Breaker *breaker;
     BreakerIED *breakerIED;
 
-    for ( int b = 0; b < SEMDData::BREAKERS; ++b )
+    for ( int b = 0; b < SEMDData::BREAKERS; b++ )
     {
         breaker = new Breaker();
         breakerIED = new BreakerIED();
@@ -474,7 +475,7 @@ void SEMDCIM::addMeasurements()
     Measurement *m;
 
     // breakers
-    for ( int b = 0; b < SEMDData::BREAKERS; ++b )
+    for ( int b = 0; b < SEMDData::BREAKERS; b++ )
     {
         m = addDiMeasurement( MeasurementType::status, SEMDData::breakersID[b],
                               UnitSymbol::none, UnitMultiplier::none,
@@ -484,11 +485,12 @@ void SEMDCIM::addMeasurements()
         breakers.at( b )->measurements.append( m );
 
         //posicao do breaker (61850)
+        breakerIEDs.at(b)->setPos(BreakerStatus::closed);
         qDebug() << "TODO: Setar posiçao do breaker dentro do modelo da norma iec61850!!!";
     }
 
     // Barras
-    for ( int b = 0; b < SEMDData::BUSES; ++b )
+    for ( int b = 0; b < SEMDData::BUSES; b++ )
     {
         // Tensão
         m = addAnMeasurement( MeasurementType::V, SEMDData::busID[b],
@@ -497,6 +499,9 @@ void SEMDCIM::addMeasurements()
 
         // atualiza equipamento
         buses.at( b )->measurements.append( m );
+
+        //atualiza IED
+        this->busIEDs.at(b)->setVol(SEMDData::buskV[b]);
     }
 
     // Pot Gerados
@@ -570,6 +575,9 @@ void SEMDCIM::addMeasurements()
         m = addDiMeasurement( MeasurementType::status, SEMDData::trafosID[t],
                               UnitSymbol::none, UnitMultiplier::none,
                               10 );
+        trafos.at( t )->measurements.append( m );
+
+        this->trafoIEDs.at(t)->setPos(10);
 
     }
 }
@@ -653,4 +661,19 @@ void SEMDCIM::addConnNodes()
 void SEMDCIM::addTerminals()
 {
 
+}
+
+/******************************************************************************
+ ***               Retorna as colecoes de tipos                             ***
+ *****************************************************************************/
+QList<BreakerIED*> SEMDCIM::getBreakersIED() {
+    return this->breakerIEDs;
+}
+
+QList<BusIED*> SEMDCIM::getBusesIED() {
+    return this->busIEDs;
+}
+
+QList<TrafoIED*> SEMDCIM::getTrafosIED() {
+    return this->trafoIEDs;
 }

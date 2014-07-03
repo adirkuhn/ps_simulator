@@ -6,6 +6,7 @@
 #include <Measurement.h>
 #include <Breaker.h>
 #include <Discrete.h>
+#include <Analog.h>
 #include <PowerTransformer.h>
 #include "PIU/BreakerIED.h"
 #include <BusbarSection.h>

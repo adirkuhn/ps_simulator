@@ -111,6 +111,10 @@ public:
     int isBus( QString eq );
     int isTrafo(QString eq);
 
+    QList<BreakerIED*> getBreakersIED();
+    QList<BusIED*> getBusesIED();
+    QList<TrafoIED*> getTrafosIED();
+
 private:
     void setBases();
 

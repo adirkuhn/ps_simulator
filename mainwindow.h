@@ -10,6 +10,7 @@
 #include <simulatordata.h>
 
 #include <ui/simulatordatawidget.h>
+#include <Multicast/Sender.h>
 
 namespace Ui {
 class MainWindow;
@@ -39,6 +40,7 @@ private:
 
     Simulator     *simulator;
     SimulatorData *simData;
+    Sender *sender;
 
     QThread thread;
 

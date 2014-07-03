@@ -21,6 +21,9 @@ void BusIED::setVol(int vol){
     this->vol = vol;
 
     //TODO = o vol é Sampled Value, então criamos e alteramos a variável INT vol
+}
 
+int BusIED::getVol() {
+    return this->vol;
 }
 

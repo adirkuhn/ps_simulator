@@ -26,14 +26,25 @@ void DataUpdateSystem::updateBreaker(Breaker *breaker, BreakerIED *breakerIED) {
     qDebug() << breakerIED->getLDName();
     qDebug() << breakerIED->getPos();
 
-    qDebug() << "updata data in breaker";
+    qDebug() << "updated data in breaker";
 }
 
 void DataUpdateSystem::updateTrafo(PowerTransformer *trafo, TrafoIED *trafoIED) {
 
-    Discrete *discreteMeas = dynamic_cast<Discrete*>(trafo->measurements[0]);
+    Discrete *measurement = dynamic_cast<Discrete*>(trafo->measurements[4]);
 
     qDebug() << "TODO: Dados do trafo para IED";
+    qDebug() << trafoIED->getLDName();
+    qDebug() << measurement->discreteValues[0]->value.val;
 
-    trafoIED->setPos(2);
+    trafoIED->setPos(measurement->discreteValues[0]->value.val);
+}
+
+void DataUpdateSystem::updateBus(BusbarSection *busbar, BusIED *busIED) {
+
+    Analog *analogMeas = dynamic_cast<Analog*>(busbar->measurements[0]);
+    busIED->setVol(analogMeas->analogValues[0]->value.val);
+
+    qDebug() << analogMeas;
+    qDebug() << "TODO: Updated Analog Values for bus";
 }

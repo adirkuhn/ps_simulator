@@ -13,12 +13,14 @@ private:
 
 public:
     TrafoIED();
+    void setLDName(QString name);
+    QString getLDName();
     void setPos(int pos);
     int getPos();
-//    void setEndPosL(int endPosL);
-//    int getEndPosL();
-//    void setEndPosR(int);
-//    int getEndPosR();
+    void setEndPosL(bool endPosL);
+    bool getEndPosL();
+    void setEndPosR(bool endPosR);
+    bool getEndPosR();
 
 };
 
