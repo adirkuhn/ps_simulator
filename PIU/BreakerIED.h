@@ -8,6 +8,8 @@
 #include <BreakerStatus.h>
 #include <DPStatusKind.h>
 
+#include <QDebug>
+
 class BreakerIED: public LD
 {
 private:
@@ -22,6 +24,7 @@ public:
     QString getLDName();
     void setPos(int pos);
     int getPos();
+    void exec();
 
 };
 

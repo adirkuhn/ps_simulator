@@ -6,7 +6,7 @@
 
 QT       += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets network
 
 TARGET = PSSimulator
 TEMPLATE = app
@@ -22,12 +22,13 @@ SOURCES += main.cpp\
     Simulator/simulatordata.cpp \
     Simulator/simulator.cpp \
     ui/simulatordatawidget.cpp \
-    Helpers/UpdateSystem/BreakerUpdate.cpp \
     PIU/BreakerIED.cpp \
     Helpers/UpdateSystem/DataUpdateSystem.cpp \
-    Helpers/UpdateSystem/IEquipmentDataUpdate.cpp \
+    ui/localwidget.cpp \
     PIU/busied.cpp \
-    ui/localwidget.cpp
+    PIU/TrafoIED.cpp \
+    Multicast/Sender.cpp
+
 
 HEADERS  += mainwindow.h \
     CIM/semdcim.h \
@@ -38,12 +39,13 @@ HEADERS  += mainwindow.h \
     Simulator/simulator.h \
     ui/simulatordatawidget.h \
     ui/simulatordatawidget_p.h \
-    Helpers/UpdateSystem/BreakerUpdate.h \
     PIU/BreakerIED.h \
     Helpers/UpdateSystem/DataUpdateSystem.h \
-    Helpers/UpdateSystem/IEquipmentDataUpdate.h \
+    ui/localwidget.h \
+    PIU/TrafoIED.h \
     PIU/busied.h \
-    ui/localwidget.h
+    Multicast/Sender.h
+
 
 FORMS    += mainwindow.ui
 

@@ -21,6 +21,7 @@ private:
 
 public:
     explicit Simulator( QObject *parent = 0 );
+    ~Simulator();
     void setSimDataWidget(SimulatorDataWidget *simDataWidget);
 
 signals:
