@@ -28,7 +28,7 @@ public:
     QHBoxLayout *btnLayout;
 
     // Widgets
-    QPushButton *btnStartSimul, *btnStopSimul;
+    QPushButton *btnStartSimul, *btnStopSimul, *btnLocal;
     QToolButton *btnDir;
 
     QLabel    *dirLabel, *timerLabel;

@@ -174,9 +174,19 @@ void SimulatorDataWidget::setupUi( QMainWindow *MainWindow )
 
     btnStopSimul->setText( tr( "Parar", "PButton" ) );
 
+    btnLocal = new QPushButton( gb );
+    Q_CHECK_PTR ( btnLocal );
+
+    btnLocal->setObjectName("SimulatorDataWidgetBtnOpenLocals");
+    btnLocal->setText(tr("Abrir Localíssimos", "PButton"));
+
+
+
     // adiciona botôes
     btnLayout->addWidget( btnStartSimul, 0, 0 );
     btnLayout->addWidget( btnStopSimul, 0, 0 );
+    btnLayout->addSpacing(300);
+    btnLayout->addWidget(btnLocal, 0, 0 );
 
     QSpacerItem *horizontalSpacer =
         new QSpacerItem( 40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );

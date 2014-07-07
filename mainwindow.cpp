@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "ui/localwidget.h"
 
 #include <QDebug>
 
@@ -41,6 +42,9 @@ MainWindow::MainWindow( QWidget *parent ) :
     // conecta ciclo simulação
     connect( this->simulator, SIGNAL( updatedData() ),
              this, SLOT( updateData() ) );
+    //conecta botão abrir localissimo
+    connect( simDataWidget->btnLocal, SIGNAL ( clicked()),
+             this, SLOT(openLocal() ) );
 
     simDataWidget->timerLEdit->setText("6");
     qDebug() << simDataWidget->timerLEdit->toPlainText();
@@ -82,6 +86,19 @@ void MainWindow::setTable()
 void MainWindow::updateData()
 {
     qDebug() << "    atualizando dados GUI ...";
+
+}
+
+void MainWindow::openLocal(){
+
+   qDebug() << "abrir janela localissimo";
+
+   localWidget *win = new localWidget();
+   win->setupUi(this->simData);
+   win->show();
+
+
+
 
 }
 

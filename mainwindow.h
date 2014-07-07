@@ -10,6 +10,7 @@
 #include <simulatordata.h>
 
 #include <ui/simulatordatawidget.h>
+#include "ui/localwidget.h"
 
 namespace Ui {
 class MainWindow;
@@ -44,6 +45,7 @@ private:
 
 public slots:
     void updateData();
+    void openLocal();
 
 };
 

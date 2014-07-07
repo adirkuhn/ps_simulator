@@ -26,8 +26,8 @@ SOURCES += main.cpp\
     PIU/BreakerIED.cpp \
     Helpers/UpdateSystem/DataUpdateSystem.cpp \
     Helpers/UpdateSystem/IEquipmentDataUpdate.cpp \
-    PIU/oldBusIED.cpp \
-    PIU/busied.cpp
+    PIU/busied.cpp \
+    ui/localwidget.cpp
 
 HEADERS  += mainwindow.h \
     CIM/semdcim.h \
@@ -42,7 +42,8 @@ HEADERS  += mainwindow.h \
     PIU/BreakerIED.h \
     Helpers/UpdateSystem/DataUpdateSystem.h \
     Helpers/UpdateSystem/IEquipmentDataUpdate.h \
-    PIU/busied.h
+    PIU/busied.h \
+    ui/localwidget.h
 
 FORMS    += mainwindow.ui
 
