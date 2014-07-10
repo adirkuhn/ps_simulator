@@ -115,6 +115,7 @@ public:
     QList<BusIED*> getBusesIED();
     QList<TrafoIED*> getTrafosIED();
 
+
 private:
     void setBases();
 

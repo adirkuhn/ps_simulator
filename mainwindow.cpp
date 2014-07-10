@@ -102,8 +102,6 @@ void MainWindow::updateData()
 
 void MainWindow::openLocal(){
 
-   qDebug() << "abrir janela localissimo";
-
    localWidget *win = new localWidget();
    win->setupUi(this->simData);
    win->show();
