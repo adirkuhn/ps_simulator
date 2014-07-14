@@ -46,7 +46,7 @@ MainWindow::MainWindow( QWidget *parent ) :
     // conecta ciclo simulação
     connect( this->simulator, SIGNAL( updatedData() ),
              this, SLOT( updateData() ) );
-    //conecta botão abrir localissimo
+    // conecta botão abrir localissimo
     connect( simDataWidget->btnLocal, SIGNAL ( clicked()),
              this, SLOT(openLocal() ) );
 

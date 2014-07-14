@@ -14,7 +14,7 @@ void SimulatorDataWidget::setupUi( QMainWindow *MainWindow )
     if ( MainWindow->objectName().isEmpty() )
         MainWindow->setObjectName( QStringLiteral( "MainWindow" ) );
 
-    MainWindow->resize( 631, 490 );
+    MainWindow->resize( 731, 490 );
 
     QSizePolicy sizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
     sizePolicy.setHorizontalStretch( 0 );
@@ -178,7 +178,7 @@ void SimulatorDataWidget::setupUi( QMainWindow *MainWindow )
     Q_CHECK_PTR ( btnLocal );
 
     btnLocal->setObjectName("SimulatorDataWidgetBtnOpenLocals");
-    btnLocal->setText(tr("Abrir Localíssimos", "PButton"));
+    btnLocal->setText(tr("Abrir Localíssimos (PIU)", "PButton"));
 
 
 

@@ -20,8 +20,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_localWidget_t {
-    QByteArrayData data[4];
-    char stringdata[32];
+    QByteArrayData data[5];
+    char stringdata[41];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -33,9 +33,10 @@ static const qt_meta_stringdata_localWidget_t qt_meta_stringdata_localWidget = {
 QT_MOC_LITERAL(0, 0, 11),
 QT_MOC_LITERAL(1, 12, 11),
 QT_MOC_LITERAL(2, 24, 0),
-QT_MOC_LITERAL(3, 25, 5)
+QT_MOC_LITERAL(3, 25, 5),
+QT_MOC_LITERAL(4, 31, 8)
     },
-    "localWidget\0refreshYLTC\0\0index\0"
+    "localWidget\0refreshYLTC\0\0index\0saveYLTC\0"
 };
 #undef QT_MOC_LITERAL
 
@@ -45,7 +46,7 @@ static const uint qt_meta_data_localWidget[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       1,   14, // methods
+       2,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -53,10 +54,12 @@ static const uint qt_meta_data_localWidget[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    1,   19,    2, 0x0a,
+       1,    1,   24,    2, 0x0a,
+       4,    0,   27,    2, 0x0a,
 
  // slots: parameters
     QMetaType::Void, QMetaType::Int,    3,
+    QMetaType::Void,
 
        0        // eod
 };
@@ -67,6 +70,7 @@ void localWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         localWidget *_t = static_cast<localWidget *>(_o);
         switch (_id) {
         case 0: _t->refreshYLTC((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 1: _t->saveYLTC(); break;
         default: ;
         }
     }
@@ -97,13 +101,13 @@ int localWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 1)
+        if (_id < 2)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 1;
+        _id -= 2;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 1)
+        if (_id < 2)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 1;
+        _id -= 2;
     }
     return _id;
 }
@@ -125,8 +129,12 @@ void localWidget::setupUi(SimulatorData *simData){
 
 
 
-    //layout local, tabs
+    //layout local, tabs e botao save
     QTabWidget *localTabs = new QTabWidget;
+    QPushButton *savebtn = new QPushButton("Salvar");
+
+    //SIGNAL para chamar a função que salva os dados da tela no modelo
+    connect (savebtn, SIGNAL(clicked()),this, SLOT(saveYLTC()));
 
     //adiciona equips
     localTP(localTabs);
@@ -135,6 +143,7 @@ void localWidget::setupUi(SimulatorData *simData){
 
     //adiciona as tabs
     mainLayout->addWidget(localTabs, 0,0);
+    mainLayout->addWidget(savebtn, 1, 0);
 
     //seta layout principal na janela
     this->setLayout(mainLayout);
@@ -149,8 +158,8 @@ void localWidget::localTP(QTabWidget *mainTab){
     QGroupBox *tpBox = new QGroupBox;
 
     //tp1
-    QLabel *tp1Label = new QLabel(this->simData->getCIMModel()->getBusesIED()[0]->getLDName());
-    QLineEdit *tp1LineEdit = new QLineEdit(QString("%1").arg(this->simData->getCIMModel()->getBusesIED()[0]->getVol()));
+    this->tp1Label = new QLabel(this->simData->getCIMModel()->getBusesIED()[0]->getLDName());
+    this->tp1LineEdit = new QLineEdit(QString("%1").arg(this->simData->getCIMModel()->getBusesIED()[0]->getVol()));
 
 
 
@@ -159,8 +168,8 @@ void localWidget::localTP(QTabWidget *mainTab){
 
 
     //tp2
-    QLabel *tp2Label = new QLabel(this->simData->getCIMModel()->getBusesIED()[1]->getLDName());
-    QLineEdit *tp2LineEdit = new QLineEdit(QString("%1").arg(this->simData->getCIMModel()->getBusesIED()[1]->getVol()));
+    this->tp2Label = new QLabel(this->simData->getCIMModel()->getBusesIED()[1]->getLDName());
+    this->tp2LineEdit = new QLineEdit(QString("%1").arg(this->simData->getCIMModel()->getBusesIED()[1]->getVol()));
 
     tpMainLayout->addWidget(tp2Label, 1, 0);
     tpMainLayout->addWidget(tp2LineEdit, 1, 1, 1, 2);
@@ -175,7 +184,7 @@ void localWidget::localBreakers(QTabWidget *mainTab) {
     //Breaker Layout
     QGroupBox *breakerBox = new QGroupBox;
     QHBoxLayout *breakerLayout = new QHBoxLayout;
-    QTableWidget *breakerTable = new QTableWidget;
+    this->breakerTable = new QTableWidget;
 
     //populate table
     breakerTable->insertColumn(0);
@@ -207,7 +216,7 @@ void localWidget::LocalYLTC(QTabWidget *mainTab){
     QGroupBox *yltcBox = new QGroupBox;
 
     //comboBox
-    QComboBox *combo = new QComboBox;
+    this->combo = new QComboBox;
 
     for (int i=0; i<this->simData->getCIMModel()->getTrafosIED().size(); i++) {
 
@@ -218,12 +227,13 @@ void localWidget::LocalYLTC(QTabWidget *mainTab){
     connect (combo, SIGNAL(currentIndexChanged(int)), this, SLOT(refreshYLTC(int)));
 
 
+
     //campos
 
-    QLabel *modo = new QLabel("Modo");
-    QLabel *pos = new QLabel("Pos");
-    QLabel *posL = new QLabel("Pos L");
-    QLabel *posR = new QLabel("Pos R");
+    this->modo = new QLabel("Modo");
+    this->pos = new QLabel("Pos");
+    this->posL = new QLabel("Pos L");
+    this->posR = new QLabel("Pos R");
 
     this->modoline = new QLineEdit;
     this->linepos = new QLineEdit;
@@ -264,4 +274,24 @@ void localWidget::refreshYLTC (int index) {
     this->linepos->setText(QString("%1").arg(this->simData->getCIMModel()->getTrafosIED().at(index)->getPos()));
     this->lineL->setText(QString("%1").arg(this->simData->getCIMModel()->getTrafosIED().at(index)->getEndPosL()));
     this->lineR->setText(QString("%1").arg(this->simData->getCIMModel()->getTrafosIED().at(index)->getEndPosR()));
+}
+
+void localWidget::saveYLTC(){
+    qDebug() << this->tp1Label->text();
+
+    //tp
+    this->simData->getCIMModel()->setEqData(this->tp1Label->text(), "V", this->tp1LineEdit->text());
+    this->simData->getCIMModel()->setEqData(this->tp2Label->text(), "V", this->tp2LineEdit->text());
+
+    //breaker
+    for(int i=0; i<this->breakerTable->rowCount(); i++) {
+
+        this->simData->getCIMModel()->setEqData(this->breakerTable->item(i,0)->text(), "status", this->breakerTable->item(i, 1)->text());
+
+    }
+
+    //YLTC - TODO MODO - CHECKBOX - ainda não tem no modelo de dados
+    this->simData->getCIMModel()->setEqData(this->combo->currentText(), "status", this->linepos->text());
+
+
 }

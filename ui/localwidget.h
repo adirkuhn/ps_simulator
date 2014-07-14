@@ -13,6 +13,7 @@
 #include <QHBoxLayout>
 #include <QCheckBox>
 #include <QComboBox>
+#include <QPushButton>
 #include "simulatordata.h"
 
 class localWidget: public QWidget
@@ -20,8 +21,23 @@ class localWidget: public QWidget
     Q_OBJECT
 private:
     SimulatorData *simData;
+    //dados TP
+    QLabel *tp1Label;
+    QLineEdit *tp1LineEdit;
+    QLabel *tp2Label;
+    QLineEdit *tp2LineEdit;
+
+    //dados Breaker
+    QTableWidget *breakerTable;
 
     //dados yltc
+    QComboBox *combo;
+
+    QLabel *modo;
+    QLabel *pos;
+    QLabel *posL;
+    QLabel *posR;
+
     QLineEdit *modoline;
     QLineEdit *linepos;
     QLineEdit *lineL;
@@ -42,6 +58,8 @@ public:
 
 public slots:
     void refreshYLTC(int index);
+    void saveYLTC ();
+
 };
 
 
