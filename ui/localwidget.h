@@ -2,7 +2,7 @@
 #define LOCALWIDGET_H
 
 
-#include<QWidget>
+#include <QWidget>
 #include <QMainWindow>
 #include <QGridLayout>
 #include <QTabWidget>
