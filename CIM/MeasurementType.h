@@ -42,7 +42,13 @@ typedef enum
     /**
      * Status ponto digital / binário.
      */
-    status
+    status,
+    /**
+     * Status para informar se Trafo esta IN ou OUT
+     * 0 - out
+     * 1 - in
+     */
+    InOut
 } enum_type;
 
 private:
@@ -108,7 +114,7 @@ public:
 
     static bool isDiscrete( const QString str )
     {
-        if ( str == "status" )
+        if ( str == "status" || str == "InOut")
             return true;
         else
             return false;
