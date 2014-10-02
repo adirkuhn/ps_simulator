@@ -36,7 +36,7 @@ void BreakerIED::setPos(int pos) {
         case BreakerStatus::half_open:
             //dpStatus.setVal(intermediateState);
             qDebug() << "TODO: Precisa implementar!!!";
-            qDebug() << "TODO: Sentando provisoriamente como false!!!";
+            qDebug() << "TODO: Setando provisoriamente como false!!!";
             val.setVal(false);
             break;
 
