@@ -29,6 +29,7 @@ private:
 
     //dados Breaker
     QTableWidget *breakerTable;
+    QTableWidget *switchTable;
 
     //dados yltc
     QComboBox *combo;
@@ -54,6 +55,7 @@ public:
 
     void localTP (QTabWidget *mainTab);
     void localBreakers (QTabWidget *mainTab);
+    void localSwitches (QTabWidget *mainTab);
     void LocalYLTC (QTabWidget *mainTab);
 
 public slots:

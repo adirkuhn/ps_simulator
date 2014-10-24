@@ -11,6 +11,7 @@ class TrafoIED: public LD
 {
 private:
     YLTC *YLTC1;
+    //LD *loc;
 
 public:
     TrafoIED();

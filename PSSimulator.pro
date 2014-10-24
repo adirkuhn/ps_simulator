@@ -27,7 +27,8 @@ SOURCES += main.cpp\
     ui/localwidget.cpp \
     PIU/busied.cpp \
     PIU/TrafoIED.cpp \
-    Multicast/Sender.cpp
+    Multicast/Sender.cpp \
+    PIU/switchied.cpp
 
 
 HEADERS  += mainwindow.h \
@@ -44,7 +45,9 @@ HEADERS  += mainwindow.h \
     ui/localwidget.h \
     PIU/TrafoIED.h \
     PIU/busied.h \
-    Multicast/Sender.h
+    Multicast/Sender.h \
+    PIU/switchied.h \
+    CIM/switchstatus.h
 
 
 FORMS    += mainwindow.ui

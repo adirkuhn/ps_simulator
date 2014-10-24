@@ -4,6 +4,8 @@
 
 #include <QDebug>
 
+#include <PIU/TrafoIED.h>
+
 MainWindow::MainWindow( QWidget *parent ) :
     QMainWindow( parent ), ui( new Ui::MainWindow )
 {
@@ -90,9 +92,10 @@ void MainWindow::setTable()
 
 void MainWindow::updateData()
 {
+
+
     QJsonObject dataToSend;
     qDebug() << "    atualizando dados GUI ...";
-
     qDebug() << "------------------------------------------------------------";
     dataToSend = this->sender->encodeData(this->simData);
     this->sender->sendDatagram(dataToSend);
