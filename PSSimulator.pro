@@ -27,7 +27,8 @@ SOURCES += main.cpp\
     ui/localwidget.cpp \
     PIU/busied.cpp \
     PIU/TrafoIED.cpp \
-    Multicast/Sender.cpp
+    Multicast/Sender.cpp \
+    Multicast/Receiver.cpp
 
 
 HEADERS  += mainwindow.h \
@@ -44,7 +45,8 @@ HEADERS  += mainwindow.h \
     ui/localwidget.h \
     PIU/TrafoIED.h \
     PIU/busied.h \
-    Multicast/Sender.h
+    Multicast/Sender.h \
+    Multicast/Receiver.h
 
 
 FORMS    += mainwindow.ui
@@ -63,8 +65,13 @@ FORMS    += mainwindow.ui
 #else:unix: LIBS += -L/usr/lib/IEC61970/ -lIEC61970
 
 LIBS += -L/usr/lib/IEC61970/ -lIEC61970 \
-        -L/usr/lib/IEC61850/ -lIEC61850
+        -L/usr/lib/IEC61850/ -lIEC61850 \
+        -L/usr/lib/libasn1 -lLIBASN1
 
 
-INCLUDEPATH += /usr/include/IEC61970 /usr/include/IEC61850/
-DEPENDPATH += /usr/include/IEC61970 /usr/include/IEC61850/
+INCLUDEPATH += /usr/include/IEC61970 /usr/include/IEC61850/ /usr/include/libasn1
+DEPENDPATH += /usr/include/IEC61970 /usr/include/IEC61850/ /usr/include/libasn1
+
+macx {
+QMAKE_MAC_SDK = macosx10.9
+}

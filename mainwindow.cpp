@@ -8,6 +8,7 @@ MainWindow::MainWindow( QWidget *parent ) :
     QMainWindow( parent ), ui( new Ui::MainWindow )
 {
     this->sender = new Sender();
+    this->receiver = new Receiver();
 
     ui->setupUi(this);
 
@@ -28,6 +29,8 @@ MainWindow::MainWindow( QWidget *parent ) :
     this->simulator = new Simulator();
     this->simulator->setSimDataWidget(this->simDataWidget);
 
+    //setGoose
+    //this->goose = new Goose();
 
     // thread Timer
     this->simulator->moveToThread( &thread );
@@ -35,6 +38,13 @@ MainWindow::MainWindow( QWidget *parent ) :
 
     //desabilita botoes
     simDataWidget->btnStopSimul->setEnabled(false);
+
+    //leitura de pacotes
+    connect(receiver->udpSocket, SIGNAL(readyRead()),
+            receiver, SLOT(processPendingDatagrams()));
+
+    connect(receiver, SIGNAL(multicastReceivedData(QJsonObject)),
+            this, SLOT(processGooseCommand(QJsonObject)));
 
     // conecta botões Iniciar / Parar
     connect( simDataWidget->btnStartSimul, SIGNAL( clicked() ),
@@ -62,6 +72,7 @@ MainWindow::~MainWindow()
     this->thread.wait();
 
     delete sender;
+    delete receiver;
     delete ui;
     delete simulator;
 }
@@ -98,6 +109,33 @@ void MainWindow::updateData()
     this->sender->sendDatagram(dataToSend);
     qDebug() << "------------------------------------------------------------";
 
+    //enviar msg goose
+    this->sendGoose();
+}
+
+void MainWindow::processGooseCommand(QJsonObject command) {
+    qDebug() << "COMANDOS EM ACAO";
+    qDebug() << command;
+
+    //TODO: subindo provisoriamente o valor da barra, tem que mudar para alterar as posiçoes do tap de verdade com goose
+    //Analog *analogMeas = dynamic_cast<Analog*>(this->simData->getCIMModel()->buses.at(0)->measurements.at(0));
+    float novoTap = this->simData->getCIMModel()->getEqData("A2-220kV", "V").toFloat();
+    //float novoTap = analogMeas->analogValues.at(0)->value.val;
+    //float novoTap = 1;
+    if (command["mudarTap"] == "up") {
+        qDebug() << "ELA FEZ O TAP SUBIR";
+        novoTap += 1;
+    }
+    else if (command["mudarTap"] == "down") {
+        qDebug() << "TAP DOWN";
+        novoTap -= 1;
+    }
+    qDebug() << "NOVO TAP";
+    qDebug() << novoTap;
+    this->simData->getCIMModel()->setEqData("A2-220kV", "V", novoTap);
+    //this->table = this->simDataWidget->dataTableView;
+    //this->table->setModel(this->simData->getTableModel());
+
 }
 
 void MainWindow::openLocal(){
@@ -105,9 +143,15 @@ void MainWindow::openLocal(){
    localWidget *win = new localWidget();
    win->setupUi(this->simData);
    win->show();
-
-
-
-
 }
 
+void MainWindow::sendGoose() {
+    //breakers
+    QList<BreakerIED*> bIed;
+    bIed =  this->simData->getCIMModel()->getBreakersIED();
+
+    for (int i=0; i < bIed.count(); i++) {
+        bIed.at(i)->setMacAddress(i);
+        bIed.at(i)->sendGoose();
+    }
+}

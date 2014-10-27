@@ -7,6 +7,43 @@ BreakerIED::BreakerIED()
     this->XCBR2 = new XCBR();
     this->XCBR3 = new XCBR();
 
+    this->gooseMessage = new GooseMessage();
+    this->gooseMessage2 = new GooseMessage();
+    this->gooseMessage3 = new GooseMessage();
+
+
+    //b1
+    this->gooseMessage->addSubscriber("a8:20:66:3b:f7:92");
+
+    this->gooseMessage->setTimeAllowedtoLive(20);
+    this->gooseMessage->setT();
+    this->gooseMessage->setStNum(1);
+    this->gooseMessage->setSqNum(1);
+    this->gooseMessage->setTest(false);
+    this->gooseMessage->setConfRev(1);
+    this->gooseMessage->setNdsCom(false);
+
+    //b2
+    this->gooseMessage2->addSubscriber("a8:20:66:3b:f7:92");
+
+    this->gooseMessage2->setTimeAllowedtoLive(20);
+    this->gooseMessage2->setT();
+    this->gooseMessage2->setStNum(1);
+    this->gooseMessage2->setSqNum(1);
+    this->gooseMessage2->setTest(false);
+    this->gooseMessage2->setConfRev(1);
+    this->gooseMessage2->setNdsCom(false);
+
+    //b3
+    this->gooseMessage3->addSubscriber("a8:20:66:3b:f7:92");
+
+    this->gooseMessage3->setTimeAllowedtoLive(20);
+    this->gooseMessage3->setT();
+    this->gooseMessage3->setStNum(1);
+    this->gooseMessage3->setSqNum(1);
+    this->gooseMessage3->setTest(false);
+    this->gooseMessage3->setConfRev(1);
+    this->gooseMessage3->setNdsCom(false);
 }
 
 void BreakerIED::setLDName(QString name) {
@@ -14,6 +51,18 @@ void BreakerIED::setLDName(QString name) {
     tmpName.setValue(name);
 
     this->setName(tmpName);
+
+    this->gooseMessage->setGocbRef("SEMD_" + name + "/LLN01.GoCBLCD1");
+    this->gooseMessage->setDatSet("SEMD_" + name + "/XCBR1.DSLCD1");
+    this->gooseMessage->setGoID("SEMD_" + name + "/LLN01.GoCBLCD1");
+
+    this->gooseMessage2->setGocbRef("SEMD_" + name + "/LLN01.GoCBLCE1");
+    this->gooseMessage2->setDatSet("SEMD_" + name + "/XCBR1.DSLCE1");
+    this->gooseMessage2->setGoID("SEMD_" + name + "/LLN01.GoCBLCE1");
+
+    this->gooseMessage3->setGocbRef("SEMD_" + name + "/LLN01.GoCBLCF1");
+    this->gooseMessage3->setDatSet("SEMD_" + name + "/XCBR1.DSLCF1");
+    this->gooseMessage3->setGoID("SEMD_" + name + "/LLN01.GoCBLCF1");
 }
 
 QString BreakerIED::getLDName() {
@@ -84,4 +133,44 @@ int BreakerIED::getPos() {
     }
 
     return val;
+}
+
+//somente variante para alterar o endereço de mac
+void BreakerIED::setMacAddress(int mac)
+{
+    //seta mac no campo disponivel em base 16
+    QString maddr = QString("01:0C:CD:01:%1:D1").arg(mac, 2, 16, QChar('0'));
+    QString maddr2 = QString("01:0C:CD:01:%1:E1").arg(mac, 2, 16, QChar('0'));
+    QString maddr3 = QString("01:0C:CD:01:%1:F1").arg(mac, 2, 16, QChar('0'));
+
+    this->gooseMessage->setMacAddress(maddr);
+    this->gooseMessage2->setMacAddress(maddr2);
+    this->gooseMessage3->setMacAddress(maddr3);
+}
+
+//envia msg goose
+void BreakerIED::sendGoose()
+{
+    //b1
+    this->gooseMessage->setNumDatSetEntries(3);
+    this->gooseMessage->cleanAllData();
+    this->gooseMessage->addAllData(QString("%1").arg(this->getPos()));
+    this->gooseMessage->addAllData(QString("%1").arg(1));
+    this->gooseMessage->addAllData(QString("%1").arg(1));
+    //b2
+    this->gooseMessage2->setNumDatSetEntries(3);
+    this->gooseMessage2->cleanAllData();
+    this->gooseMessage2->addAllData(QString("%1").arg(this->getPos()));
+    this->gooseMessage2->addAllData(QString("%1").arg(1));
+    this->gooseMessage2->addAllData(QString("%1").arg(1));
+    //b3
+    this->gooseMessage3->setNumDatSetEntries(3);
+    this->gooseMessage3->cleanAllData();
+    this->gooseMessage3->addAllData(QString("%1").arg(this->getPos()));
+    this->gooseMessage3->addAllData(QString("%1").arg(1));
+    this->gooseMessage3->addAllData(QString("%1").arg(1));
+
+    this->gooseMessage->sendMessageToSubscribers();
+    this->gooseMessage2->sendMessageToSubscribers();
+    this->gooseMessage3->sendMessageToSubscribers();
 }

@@ -8,6 +8,7 @@
 #include <BreakerStatus.h>
 #include <DPStatusKind.h>
 
+#include <GooseMessage.h>
 #include <QDebug>
 
 class BreakerIED: public LD
@@ -17,6 +18,10 @@ private:
     XCBR *XCBR2;
     XCBR *XCBR3;
 
+    GooseMessage *gooseMessage;
+    GooseMessage *gooseMessage2;
+    GooseMessage *gooseMessage3;
+
 public:
     BreakerIED();
 
@@ -25,6 +30,9 @@ public:
     void setPos(int pos);
     int getPos();
     void exec();
+
+    void setMacAddress(int mac);
+    void sendGoose();
 
 };
 

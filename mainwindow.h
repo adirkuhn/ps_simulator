@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
+#include <QJsonObject>
 #include <QTableView>
 #include <QThread>
 
@@ -12,7 +12,10 @@
 #include <ui/simulatordatawidget.h>
 #include "ui/localwidget.h"
 #include <Multicast/Sender.h>
+#include <Multicast/Receiver.h>
 
+//Goose
+#include <GooseMessage.h>
 
 namespace Ui {
 class MainWindow;
@@ -43,12 +46,16 @@ private:
     Simulator     *simulator;
     SimulatorData *simData;
     Sender *sender;
+    Receiver *receiver;
 
     QThread thread;
+
+    void sendGoose();
 
 public slots:
     void updateData();
     void openLocal();
+    void processGooseCommand(QJsonObject command);
 
 };
 
