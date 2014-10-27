@@ -3,7 +3,7 @@
 
 Sender::Sender()
 {
-    groupAddress = QHostAddress("179.106.217.203");
+    groupAddress = QHostAddress("127.0.0.1");
     messageNo = 1;
     udpSocket = new QUdpSocket;
 

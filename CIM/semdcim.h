@@ -143,6 +143,9 @@ private:
     void addConnNodes();
     void addTerminals();
 
+    //muda status inOut dependendo ao correspondente aos disjuntores ligados
+    void changeInOutStatus(int breakerID);
+
 signals:
 
 public slots:

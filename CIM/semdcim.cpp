@@ -125,6 +125,9 @@ bool SEMDCIM::setEqData( QString eq, QString mType, const QVariant &value )
     //Verifica o tipo de equipamento e chama funcao para troca de dados
     if(isBreaker(eq) > -1) {
         this->dataUpdateSystem->updateBreaker(this->breakers[isBreaker(eq)], this->breakerIEDs[isBreaker(eq)]);
+
+        //muda valores do trado ligado /desligado (in/out)
+        changeInOutStatus(isBreaker(eq));
     }
     if (isTrafo(eq) > -1) {
         this->dataUpdateSystem->updateTrafo(this->trafos[isTrafo(eq)], this->trafoIEDs[isTrafo(eq)]);
@@ -614,6 +617,12 @@ void SEMDCIM::addMeasurements()
 
         this->trafoIEDs.at(t)->setPos(10);
 
+        //In Out
+        m = addDiMeasurement(MeasurementType::InOut, SEMDData::trafosID[t],
+                             UnitSymbol::none, UnitMultiplier::none,
+                             1);
+        trafos.at(t)->measurements.append(m);
+
     }
 }
 
@@ -713,6 +722,69 @@ QList<TrafoIED*> SEMDCIM::getTrafosIED() {
     return this->trafoIEDs;
 }
 
+
 QList<SwitchIED*> SEMDCIM::getSwitchesIED(){
     return this->switchesIEDs;
+}
+
+//in out
+void SEMDCIM::changeInOutStatus(int breakerID) {
+
+    /**
+     * Mapeamento
+     *
+     * b[1] 04T01 - t[0] T01-R01 - b[7] 03T01
+     * b[2] 84T02 - t[1] T02-R02 - b[8] 03T02
+     * b[3] 04T03 - t[2] T03-R03 - b[9] 03T03
+     * b[4] 84T04 - t[3] T04-R04 - b[10] 03T04
+     * b[5] 84T05 - t[4] T05-R05 - b[11] 83T05
+     * b[6] 04T0X - t[5] T0X-R0X - b[12] 03T0X
+     */
+
+    int b1, b2, trafoID, statusB1, statusB2;
+    Discrete *b1Meas, *b2Meas, *trafoMeas;
+
+    //status breaker1
+    b1 = breakerID;
+    b1Meas = dynamic_cast<Discrete*>(breakers.at(b1)->measurements[0]);
+    statusB1 = b1Meas->discreteValues.at(0)->value.val;
+
+    switch (breakerID) {
+    case 1: b2 = 7;
+    case 7: b2 = 1;
+        trafoID = 0;
+        break;
+    case 2: b2 = 8;
+    case 8: b2 = 2;
+        trafoID = 1;
+        break;
+    case 3: b2 = 9;
+    case 9: b2 = 3;
+        trafoID = 2;
+        break;
+    case 4:  b2 = 10;
+    case 10: b2 = 4;
+        trafoID = 3;
+        break;
+    case 5:  b2 = 11;
+    case 11: b2 = 5;
+        trafoID = 4;
+        break;
+    case 6:  b2 = 12;
+    case 12: b2 = 6;
+        trafoID = 6;
+        break;
+    }
+
+    //statusB2
+    b2Meas = dynamic_cast<Discrete*>(breakers.at(b2)->measurements[0]);
+    statusB2 = b2Meas->discreteValues.at(0)->value.val;
+
+    trafoMeas = dynamic_cast<Discrete*>(trafos.at(trafoID)->measurements[5]);
+
+    if (statusB1 == 2 && statusB2 == 2)
+        trafoMeas->discreteValues.at(0)->value.val = 1; //IN
+    else
+        trafoMeas->discreteValues.at(0)->value.val = 0; //OUT
+
 }

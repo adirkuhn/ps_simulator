@@ -1,3 +1,11 @@
+/****************************************************************************
+** Meta object code from reading C++ file 'localwidget.h'
+**
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.3.0)
+**
+** WARNING! All changes made in this file will be lost!
+*****************************************************************************/
+
 #include "localwidget.h"
 #include <QDebug>
 
