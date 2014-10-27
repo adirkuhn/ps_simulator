@@ -7,6 +7,7 @@
 *****************************************************************************/
 
 #include "localwidget.h"
+#include <QDebug>
 
 
 localWidget::localWidget()
@@ -35,6 +36,7 @@ void localWidget::setupUi(SimulatorData *simData){
     localTP(localTabs);
     localBreakers (localTabs);
     LocalYLTC(localTabs);
+    localSwitches(localTabs);
 
     //adiciona as tabs
     mainLayout->addWidget(localTabs, 0,0);
@@ -101,6 +103,35 @@ void localWidget::localBreakers(QTabWidget *mainTab) {
     //add tab
     breakerBox->setLayout(breakerLayout);
     mainTab->addTab(breakerBox, "Breakers");
+}
+
+void localWidget::localSwitches(QTabWidget *mainTab) {
+
+    //Breaker Layout
+    QGroupBox *switchBox = new QGroupBox;
+    QHBoxLayout *switchLayout = new QHBoxLayout;
+    this->switchTable = new QTableWidget;
+
+    //populate table
+    switchTable->insertColumn(0);
+    switchTable->insertColumn(1);
+
+    switchTable->setHorizontalHeaderItem(0, new QTableWidgetItem("Breaker"));
+    switchTable->setHorizontalHeaderItem(1, new QTableWidgetItem("Status"));
+
+
+    for(int i=0; i<this->simData->getCIMModel()->getSwitchesIED().size(); i++) {
+        switchTable->insertRow(i);
+
+        switchTable->setItem(i, 0, new QTableWidgetItem(QString("%1").arg(this->simData->getCIMModel()->getSwitchesIED().at(i)->getLDName())));
+        switchTable->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(this->simData->getCIMModel()->getSwitchesIED().at(i)->getPos())));
+    }
+
+    switchLayout->addWidget(switchTable);
+
+    //add tab
+    switchBox->setLayout(switchLayout);
+    mainTab->addTab(switchBox, "Switches");
 }
 
 void localWidget::LocalYLTC(QTabWidget *mainTab){

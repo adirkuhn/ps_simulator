@@ -97,10 +97,18 @@ public:
     /**************************************************************************
      ***                            Dados Breakers                          ***
      *************************************************************************/
-    static const int BREAKERS = GENUNITS + TRAFOS * 2 + LOADS * 1;
-
+    //static const int BREAKERS = GENUNITS + TRAFOS * 2 + LOADS * 1;
+    static const int BREAKERS = 25;
     // ids trafos
     static const QString breakersID[BREAKERS];
+
+
+    /**************************************************************************
+     ***                            Dados Switches                          ***
+     *************************************************************************/
+    static const int SWITCHES = 60;
+
+    static const QString switchesID[SWITCHES];
 
 public:
     SEMDData();

@@ -1,8 +1,10 @@
 #include "BreakerIED.h"
 
+//TODO verificar se os demais XCBR devem copiar as informações do primeiro
 
 BreakerIED::BreakerIED()
 {
+    //sao 3 XCBR pois o sistema é trifasico
     this->XCBR1 = new XCBR();
     this->XCBR2 = new XCBR();
     this->XCBR3 = new XCBR();
@@ -85,7 +87,7 @@ void BreakerIED::setPos(int pos) {
         case BreakerStatus::half_open:
             //dpStatus.setVal(intermediateState);
             qDebug() << "TODO: Precisa implementar!!!";
-            qDebug() << "TODO: Sentando provisoriamente como false!!!";
+            qDebug() << "TODO: Setando provisoriamente como false!!!";
             val.setVal(false);
             break;
 

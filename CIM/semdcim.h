@@ -17,6 +17,8 @@
 #include <Breaker.h>
 #include <PIU/BreakerIED.h>
 #include <PIU/TrafoIED.h>
+#include <Switch.h>
+#include <PIU/switchied.h>
 
 #include <Helpers/UpdateSystem/DataUpdateSystem.h>
 
@@ -78,6 +80,10 @@ private:
     QList<Breaker*> breakers;
     QList<BreakerIED*> breakerIEDs;
 
+    //Switches
+    QList<Switch*> switches;
+    QList<SwitchIED*> switchesIEDs;
+
     // Medidas
     // Tip - QMap only small number elements & need to sort
     QMultiMap<QString, Measurement *> measurements;
@@ -110,10 +116,12 @@ public:
     int isBreaker( QString eq );
     int isBus( QString eq );
     int isTrafo(QString eq);
+    int isSwitch (QString eq);
 
     QList<BreakerIED*> getBreakersIED();
     QList<BusIED*> getBusesIED();
     QList<TrafoIED*> getTrafosIED();
+    QList<SwitchIED*> getSwitchesIED();
 
 
 private:
@@ -128,6 +136,7 @@ private:
     void addLoads();
     void addTrafos();
     void addBreakers();
+    void addSwitches();
 
     void addMeasurements();
 

@@ -3,15 +3,16 @@
 /**
  * TODO:
  * atributos nao localizados
- * LTCMvm
- * LTCMod
- * LTCCycAlm
- * Loc
+ * LTCMvm - pertence ao CEPAR
+ * LTCMod - pertence ao ATCC
+ * LTCCycAlm - implementado
+ * Loc -implementado
  */
 
 TrafoIED::TrafoIED()
 {
     this->YLTC1 = new YLTC();
+
 }
 
 void TrafoIED::setLDName(QString name) {
@@ -101,3 +102,57 @@ bool TrafoIED::getEndPosR() {
     return this->YLTC1->EndPosR.stVal.getAttr().getVal().getVal();
 }
 
+int TrafoIED::getTapChg(){
+
+    return this->YLTC1->TapChg.valWTr.getAttr().posVal.val.val;
+}
+
+void TrafoIED::setTapChg(int val){
+    P_INT8 valFinal;
+    //INT8 posVal;
+    ValWithTrans valWtr;
+
+    valFinal.val = val;
+    valWtr.posVal.setVal(valFinal);
+
+    this->YLTC1->TapChg.valWTr.setAttr(valWtr);
+    //verificar se o valor deve ser passado no ctVal ou no valWtr
+
+}
+
+bool TrafoIED::getLoc(){
+
+    return this->getLLn0()->Loc.stVal.getAttr().getVal().getVal();
+    //retorna o valor "modo de operacao" se é local ou remoto
+
+}
+
+void TrafoIED::setLoc(bool loc){
+    P_BOOLEAN val;
+    BOOLEAN attr;
+    BOOLEAN_ST_dchg stVal;
+
+    val.setVal(loc);
+    attr.setVal(val);
+    stVal.setAttr(attr);
+
+    this->getLLn0()->Loc.stVal = stVal;
+
+}
+
+bool TrafoIED::getLTCCycAlm(){
+    return this->YLTC1->LTCCycAlm.stVal.getAttr().getVal().getVal();
+    //retorna o alarme se o ciclo de mudança foi incompleto
+}
+
+void TrafoIED::setLTCCycAlm(bool alm){
+    P_BOOLEAN val;
+    BOOLEAN attr;
+    BOOLEAN_ST_dchg stVal;
+
+    val.setVal(alm);
+    attr.setVal(val);
+    stVal.setAttr(attr);
+
+    this->YLTC1->LTCCycAlm.stVal = stVal;
+}

@@ -28,7 +28,8 @@ SOURCES += main.cpp\
     PIU/busied.cpp \
     PIU/TrafoIED.cpp \
     Multicast/Sender.cpp \
-    Multicast/Receiver.cpp
+    Multicast/Receiver.cpp \
+    PIU/switchied.cpp
 
 
 HEADERS  += mainwindow.h \
@@ -46,7 +47,9 @@ HEADERS  += mainwindow.h \
     PIU/TrafoIED.h \
     PIU/busied.h \
     Multicast/Sender.h \
-    Multicast/Receiver.h
+    Multicast/Receiver.h \
+    PIU/switchied.h \
+    CIM/switchstatus.h
 
 
 FORMS    += mainwindow.ui

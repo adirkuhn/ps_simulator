@@ -30,10 +30,14 @@ SEMDCIM::SEMDCIM( QObject *parent ) :
     addLoads();
     addTrafos();
     addBreakers();
+    addSwitches();
 
     addMeasurements();
 
     qDebug() << "CIM Model completed";
+
+
+
 }
 
 QVariant SEMDCIM::getValue( const Measurement *m )
@@ -168,6 +172,16 @@ int SEMDCIM::isTrafo(QString eq) {
     return -1;
 }
 
+int SEMDCIM::isSwitch(QString eq )
+{
+    for ( int b = 0; b < SEMDData::SWITCHES; b++ )
+    {
+        if ( eq == SEMDData::switchesID[b] )
+            return b;
+    }
+
+    return -1;
+}
 
 void SEMDCIM::setRegion()
 {
@@ -470,6 +484,27 @@ void SEMDCIM::addBreakers()
     }
 }
 
+void SEMDCIM::addSwitches()
+{
+    Switch *switch1;
+    SwitchIED *switchesIED1;
+
+    for ( int b = 0; b < SEMDData::SWITCHES; b++ )
+    {
+        switch1 = new Switch();
+        switchesIED1 = new SwitchIED();
+
+        //nomeando equipamento
+        switch1->name.str = SEMDData::switchesID[b];
+        switchesIED1->setLDName(SEMDData::switchesID[b]);
+
+        // lista local
+        switches.append(switch1);
+        switchesIEDs.append(switchesIED1);
+
+
+    }
+}
 /******************************************************************************
  ***                        Medidas / Leituras                              ***
  *****************************************************************************/
@@ -688,6 +723,10 @@ QList<TrafoIED*> SEMDCIM::getTrafosIED() {
 }
 
 
+QList<SwitchIED*> SEMDCIM::getSwitchesIED(){
+    return this->switchesIEDs;
+}
+
 //in out
 void SEMDCIM::changeInOutStatus(int breakerID) {
 
@@ -747,4 +786,5 @@ void SEMDCIM::changeInOutStatus(int breakerID) {
         trafoMeas->discreteValues.at(0)->value.val = 1; //IN
     else
         trafoMeas->discreteValues.at(0)->value.val = 0; //OUT
+
 }
