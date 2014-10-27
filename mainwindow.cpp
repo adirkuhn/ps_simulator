@@ -157,4 +157,13 @@ void MainWindow::sendGoose() {
         bIed.at(i)->setMacAddress(i);
         bIed.at(i)->sendGoose();
     }
+
+    //switches
+    QList<SwitchIED*> sIed;
+    sIed = this->simData->getCIMModel()->getSwitchesIED();
+
+    for (int i=0; i < sIed.count(); i++) {
+        sIed.at(i)->setMacAddress(i);
+        sIed.at(i)->sendGoose();
+    }
 }

@@ -6,9 +6,18 @@ SwitchIED::SwitchIED()
 {
     this->XSWI1 = new XSWI();
 
+    this->gooseMessage = new GooseMessage();
 
+    this->gooseMessage->addSubscriber("a8:20:66:3b:f7:92");
 
-
+    this->gooseMessage->setDatSet("DSLCC1");
+    this->gooseMessage->setTimeAllowedtoLive(20);
+    this->gooseMessage->setT();
+    this->gooseMessage->setStNum(1);
+    this->gooseMessage->setSqNum(1);
+    this->gooseMessage->setTest(false);
+    this->gooseMessage->setConfRev(1);
+    this->gooseMessage->setNdsCom(false);
 }
 
 void SwitchIED::setLDName(QString name) {
@@ -16,6 +25,9 @@ void SwitchIED::setLDName(QString name) {
     tmpName.setValue(name);
 
     this->setName(tmpName);
+
+    this->gooseMessage->setGocbRef("SEMD_" + name + "/LLN01/GoCBLCD1");
+    this->gooseMessage->setGoID("SEMD_" + name + "/LLN01/GoCBLCD1");
 }
 
 QString SwitchIED::getLDName() {
@@ -94,3 +106,26 @@ int SwitchIED::getPos() {
 
     return val;
 }
+
+//somente variante para alterar o endereço de mac
+void SwitchIED::setMacAddress(int mac)
+{
+    //seta mac no campo disponivel em base 16
+    QString maddr = QString("01:0C:CD:01:%1:C1").arg(mac, 2, 16, QChar('0'));
+
+    this->gooseMessage->setMacAddress(maddr);
+}
+
+//envia msg goose
+void SwitchIED::sendGoose()
+{
+
+    this->gooseMessage->setNumDatSetEntries(3);
+    this->gooseMessage->cleanAllData();
+    this->gooseMessage->addAllData(QString("%1").arg(this->getPos()));
+    this->gooseMessage->addAllData(QString("%1").arg(1));
+    this->gooseMessage->addAllData(QString("%1").arg(1));
+
+    this->gooseMessage->sendMessageToSubscribers();
+}
+
