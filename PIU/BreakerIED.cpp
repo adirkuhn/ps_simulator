@@ -29,7 +29,7 @@ BreakerIED::BreakerIED()
     //b2
     this->gooseMessage2->addSubscriber("a8:20:66:3b:f7:92");
 
-    this->gooseMessage2->setDatSet("DSLCD1");
+    this->gooseMessage2->setDatSet("DSLCE1");
     this->gooseMessage2->setTimeAllowedtoLive(20);
     this->gooseMessage2->setT();
     this->gooseMessage2->setStNum(1);
@@ -41,7 +41,7 @@ BreakerIED::BreakerIED()
     //b3
     this->gooseMessage3->addSubscriber("a8:20:66:3b:f7:92");
 
-    this->gooseMessage3->setDatSet("DSLCD1");
+    this->gooseMessage3->setDatSet("DSLCF1");
     this->gooseMessage3->setTimeAllowedtoLive(20);
     this->gooseMessage3->setT();
     this->gooseMessage3->setStNum(1);
@@ -57,14 +57,14 @@ void BreakerIED::setLDName(QString name) {
 
     this->setName(tmpName);
 
-    this->gooseMessage->setGocbRef("SEMD_" + name + "/LLN01.GoCBLCD1");
-    this->gooseMessage->setGoID("SEMD_" + name + "/LLN01.GoCBLCD1");
+    this->gooseMessage->setGocbRef("SEMD_" + name + "/LLN01/GoCBLCD1");
+    this->gooseMessage->setGoID("SEMD_" + name + "/LLN01/GoCBLCD1");
 
-    this->gooseMessage2->setGocbRef("SEMD_" + name + "/LLN01.GoCBLCE1");
-    this->gooseMessage2->setGoID("SEMD_" + name + "/LLN01.GoCBLCE1");
+    this->gooseMessage2->setGocbRef("SEMD_" + name + "/LLN01/GoCBLCE1");
+    this->gooseMessage2->setGoID("SEMD_" + name + "/LLN01/GoCBLCE1");
 
-    this->gooseMessage3->setGocbRef("SEMD_" + name + "/LLN01.GoCBLCF1");
-    this->gooseMessage3->setGoID("SEMD_" + name + "/LLN01.GoCBLCF1");
+    this->gooseMessage3->setGocbRef("SEMD_" + name + "/LLN01/GoCBLCF1");
+    this->gooseMessage3->setGoID("SEMD_" + name + "/LLN01/GoCBLCF1");
 }
 
 QString BreakerIED::getLDName() {

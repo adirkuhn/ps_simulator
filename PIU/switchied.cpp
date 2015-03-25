@@ -26,8 +26,8 @@ void SwitchIED::setLDName(QString name) {
 
     this->setName(tmpName);
 
-    this->gooseMessage->setGocbRef("SEMD_" + name + "/LLN01/GoCBLCD1");
-    this->gooseMessage->setGoID("SEMD_" + name + "/LLN01/GoCBLCD1");
+    this->gooseMessage->setGocbRef("SEMD_" + name + "/LLN01/GoCBLCC1");
+    this->gooseMessage->setGoID("SEMD_" + name + "/LLN01/GoCBLCC1");
 }
 
 QString SwitchIED::getLDName() {
